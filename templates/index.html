@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>INNA - Intelligent Analyzer</title>
+</head>
+<body>
+    <div class="container">
+        <h1>INNA 🔍</h1>
+        <p>Intelligent Network & Node Analyzer</p>
+        
+        <form action="/analyze" method="post" class="search-box">
+            <input type="text" name="url" placeholder="Enter website URL (e.g. google.com)" required>
+            <button type="submit">Analyze Growth</button>
+        </form>
+
+        {% if error %}
+            <div class="error-msg">{{ error }}</div>
+        {% endif %}
+
+        {% if result %}
+            <div class="result-box">
+                <h3>Analysis for: {{ result.url }}</h3>
+                <div class="metrics">
+                    <p><strong>Status:</strong> {{ result.status }} ({{ result.code }})</p>
+                    <p><strong>Node Speed:</strong> {{ result.speed }}</p>
+                    <p><strong>SEO Score:</strong> <span class="score">{{ result.seo_score }}/100</span></p>
+                </div>
+
+                <h4>Suggestions for Growth:</h4>
+                <ul>
+                    {% for suggestion in result.suggestions %}
+                        <li>🚀 {{ suggestion }}</li>
+                    {% else %}
+                        <li>✅ Sab kuch mast hai! Your site is well-optimized.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
